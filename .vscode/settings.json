@@ -1,0 +1,7 @@
+{
+    "editor.find.autoFindInSelection": "always",
+    "css.validation": {
+        "class": false,
+        "id": false
+    }
+}
