@@ -13,7 +13,7 @@ COPY . /app
 
 WORKDIR /app
 
-RUN npm install && ng build --base-href /manage/ --prod
+RUN npm install && ng build --prod
 
 # 暴露出项目的 4200, 填你项目端口即可 (没有端口可忽略)
 EXPOSE 4200
