@@ -1,4 +1,4 @@
-FROM node:13.3.0-alpine3.10
+FROM node
 
 ENV PORT=4200 \
     NODE_ENV=production
