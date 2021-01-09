@@ -20,7 +20,7 @@ jobs:
 
       - name: Push Docker
         run: |
-          echo "${{ALIYUN_PASSWORD}}" | docker login --username=${{ secrets.ALIYUN_USERNAME }} --password-stdin registry.cn-shanghai.aliyuncs.com
+          echo "${{ secrets.ALIYUN_PASSWORD }}" | docker login --username=${{ secrets.ALIYUN_USERNAME }} --password-stdin registry.cn-shanghai.aliyuncs.com
           docker build . -t ${{ secrets.ALIYUN_REGISTRY }}:$GITHUB_RUN_NUMBER
           docker push ${{ secrets.ALIYUN_REGISTRY }}:$GITHUB_RUN_NUMBER
           docker tag $(docker images ${{ secrets.ALIYUN_REGISTRY }}:$GITHUB_RUN_NUMBER -q) ${{ secrets.ALIYUN_REGISTRY }}:latest
@@ -41,7 +41,7 @@ jobs:
             docker stop $(docker ps --filter ancestor=${{ secrets.ALIYUN_REGISTRY }} -q)
             docker rm -f $(docker ps -a --filter ancestor=${{ secrets.ALIYUN_REGISTRY }}:latest -q)
             docker rmi -f $(docker images  ${{ secrets.ALIYUN_REGISTRY }}:latest -q)
-            docker login --username=${{ secrets.ALIYUN_USERNAME }} --password ${{ secrets.ALIYUN_PASSWORD }} registry.cn-shanghai.aliyuncs.com
+            echo "${{ALIYUN_PASSWORD}}" | docker login --username=${{ secrets.ALIYUN_USERNAME }} --password-stdin registry.cn-shanghai.aliyuncs.com
             docker pull ${{ secrets.ALIYUN_REGISTRY }}:latest
             docker run -d -p 4200:4200 ${{ secrets.ALIYUN_REGISTRY }}:latest
 
