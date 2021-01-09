@@ -29,20 +29,20 @@ jobs:
   pull-docker:
     needs: [build]
     name: Pull Docker
-      runs-on: ubuntu-latest
-      steps:
-        - name: Deploy
-          uses: appleboy/ssh-action@master
-          with:
-            host: ${{ secrets.HOST }}
-            username: ${{ secrets.HOST_USER }}
-            key: ${{ secrets.TENCENT_HOST_PRIVATE_KEY }}
-            script: |
-              docker stop $(docker ps --filter ancestor=${{ secrets.ALIYUN_REGISTRY }} -q)
-              docker rm -f $(docker ps -a --filter ancestor=${{ secrets.ALIYUN_REGISTRY }}:latest -q)
-              docker rmi -f $(docker images  ${{ secrets.ALIYUN_REGISTRY }}:latest -q)
-              docker login --username=${{ secrets.ALIYUN_USERNAME }} --password ${{ secrets.ALIYUN_PASSWORD }} registry.cn-shanghai.aliyuncs.com
-              docker pull ${{ secrets.ALIYUN_REGISTRY }}:latest
-              docker run -d -p 4200:4200 ${{ secrets.ALIYUN_REGISTRY }}:latest
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.HOST_USER }}
+          key: ${{ secrets.TENCENT_HOST_PRIVATE_KEY }}
+          script: |
+            docker stop $(docker ps --filter ancestor=${{ secrets.ALIYUN_REGISTRY }} -q)
+            docker rm -f $(docker ps -a --filter ancestor=${{ secrets.ALIYUN_REGISTRY }}:latest -q)
+            docker rmi -f $(docker images  ${{ secrets.ALIYUN_REGISTRY }}:latest -q)
+            docker login --username=${{ secrets.ALIYUN_USERNAME }} --password ${{ secrets.ALIYUN_PASSWORD }} registry.cn-shanghai.aliyuncs.com
+            docker pull ${{ secrets.ALIYUN_REGISTRY }}:latest
+            docker run -d -p 4200:4200 ${{ secrets.ALIYUN_REGISTRY }}:latest
 
 
