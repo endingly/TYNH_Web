@@ -5,7 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
-import { VeiwManagerModule } from './veiw/veiw-manager.module';
+import { ViewManagerModule } from './veiw/view-manager.module';
+import { PageManagerModule } from './page/page-manager.module';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { VeiwManagerModule } from './veiw/veiw-manager.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    VeiwManagerModule,
+    ViewManagerModule,
+    PageManagerModule,
     MDBBootstrapModule.forRoot(),
   ],
   providers: [],

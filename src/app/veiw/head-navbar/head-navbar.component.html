@@ -1,6 +1,6 @@
-<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark indigo">
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark indigo sticky-top">
     <mdb-navbar-brand>
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" routerLink="/Home" routerLinkActive="active">
             <img src="https://tva4.sinaimg.cn/crop.0.0.180.180.180/bfd8fd8ejw1e8qgp5bmzyj2050050aa8.jpg?KID=imgbed,tva&Expires=1610111256&ssig=%2BNt2mMlAh5"
                 height="30" class="d-inline-block align-top" alt="">
             天佑论坛
@@ -11,34 +11,26 @@
     <links>
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link waves-light" mdbWavesEffect>主页<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link waves-light" mdbWavesEffect>帖子广场</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link waves-light" mdbWavesEffect>二手交易市场</a>
             </li>
-
-            <li class="nav-item dropdown" dropdown>
-                <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light"
-                    mdbWavesEffect>
-                    电子资源<span class="caret"></span></a>
-                <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
-                    <a class="dropdown-item waves-light" mdbWavesEffect href="#">图书</a>
-                    <a class="dropdown-item waves-light" mdbWavesEffect href="#">软件</a>
-                </div>
+            <li class="nav-item">
+                <a class="nav-link waves-light" mdbWavesEffect>图书资源</a>
             </li>
-
+            <li class="nav-item">
+                <a class="nav-link waves-light" mdbWavesEffect>软件资源</a>
+            </li>
         </ul>
 
 
 
-        <form class="form-inline waves-light" mdbWavesEffect>
-            <div class="md-form my-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="站内搜索">
-            </div>
-        </form>
+      <form class="form-inline md-form form-sm">
+        <mdb-icon fas icon="search" class="text-white" aria-hidden="true"></mdb-icon>
+        <input class="form-control form-control-sm ml-3 w-75 text-white" type="text" placeholder="站内搜索" aria-label="Search"
+               mdbInput>
+      </form>
     </links>
 
 
