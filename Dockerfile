@@ -1,21 +1,21 @@
-# 这里是引用的docker镜像, 我是maven项目所以是maven, 其他项目需要的镜像可以在dockerhub上找到
-FROM node
-MAINTAINER endingly<jiasongdeng@qq.com>
+FROM node:13.3.0-alpine3.10
 
 ENV PORT=4200 \
     NODE_ENV=production
 
-RUN npm install express -g \
+# 安装express和angular/cli
+RUN npm install express@4.17.1 -g \
     && npm install -g @angular/cli
+# 创建app目录
 RUN mkdir -p /app
-
+# 复制代码到 App 目录
 COPY . /app
 
 WORKDIR /app
 
-RUN npm install && ng build
+# 安装依赖,构建程序,这里由于我需要反向代理到子目录，所以添加了base-href参数
+RUN npm install && ng build  --prod
 
-# 暴露出项目的 4200, 填你项目端口即可 (没有端口可忽略)
-EXPOSE 4200
+EXPOSE ${PORT}
 
 ENTRYPOINT ["node", "/app/server.js"]
