@@ -9,13 +9,9 @@ RUN npm install express -g \
 # 创建app目录
 RUN mkdir -p /app
 # 复制代码到 App 目录
-COPY . /app
+COPY ./dist/TYNH /app
 
 WORKDIR /app
-
-# 安装依赖,构建程序,这里由于我需要反向代理到子目录，所以添加了base-href参数
-RUN npm install
-RUN ng build  --prod
 
 EXPOSE ${PORT}
 
