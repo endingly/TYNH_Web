@@ -9,7 +9,7 @@ RUN npm install express -g \
 # 创建app目录
 RUN mkdir -p /app
 # 复制代码到 App 目录
-COPY ./* /app
+COPY ./* /app/
 
 WORKDIR /app
 
