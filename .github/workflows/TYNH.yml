@@ -10,14 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v2.1.4
-
-      - name: Run build command
-        run: |
-          npm install
-          npm build
-
       - name: Push Docker
         run: |
           echo "${{ secrets.ALIYUN_PASSWORD }}" | docker login --username=${{ secrets.ALIYUN_USERNAME }} --password-stdin registry.cn-shanghai.aliyuncs.com
