@@ -4,7 +4,7 @@ ENV PORT=4200 \
     NODE_ENV=production
 
 # 安装express和angular/cli
-RUN npm install express@4.17.1 -g \
+RUN npm install express -g \
     && npm install -g @angular/cli
 # 创建app目录
 RUN mkdir -p /app
