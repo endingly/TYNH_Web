@@ -14,7 +14,9 @@ jobs:
       - name: Build source
         run: |
           npm install
-          npm build
+          npm install @angular/cli -g
+          ng build --prod
+          ls
 
       - name: Push Docker
         run: |
