@@ -7,16 +7,16 @@ on:
 jobs:
 
   clear-old-file:
-  name: clear
-  runs-on: ubuntu-latest
-  steps:
-    - name: Deploy
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.HOST_USER }}
-        key: ${{ secrets.TENCENT_HOST_PRIVATE_KEY }}
-        script: |
+    name: clear
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.HOST_USER }}
+          key: ${{ secrets.TENCENT_HOST_PRIVATE_KEY }}
+          script: |
             rm -r /home/app/*
 
   build:
@@ -39,7 +39,7 @@ jobs:
             ./dist/TYNH
             ./src/app/server.js
           retention-days: 5
-        run: echo 'OK'
+      
 
   release:
     needs: [build]
@@ -49,7 +49,7 @@ jobs:
       - uses: actions/download-artifact@v2
       - with: 
           name: TYNH_relase
-        run: echo 'OK'
+
 
       - name: Tansfer and release
         uses: matheusvanzan/sshpass-action@v2
