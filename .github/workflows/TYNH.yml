@@ -22,7 +22,7 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           user: ${{ secrets.HOST_USER }}
-          pass: ${{ secrets.HOST_PASSWORD }}
+          key: ${{ secrets.TENCENT_HOST_PRIVATE_KEY }}
           run: |
             scp  -r ./dist/TYNH/* root@endingly.live:/home/app
             scp  -r ./src/app/server.js root@endingly.live:/home/app
@@ -36,7 +36,7 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.HOST_USER }}
-          password: ${{ secrets.HOST_PASSWORD }}
+          key: ${{ secrets.TENCENT_HOST_PRIVATE_KEY }}
           script: |
             rm -r /home/app/*
 
