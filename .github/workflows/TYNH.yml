@@ -10,12 +10,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2.1.4
-      - uses: mayurrawte/github-angular-actions@latest
 
       - name: Build source
         run: |
           npm install
-          ng build --prod
+          npm run build 
           ls
 
       - name: Push Docker
