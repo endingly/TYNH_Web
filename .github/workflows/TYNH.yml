@@ -19,7 +19,7 @@ jobs:
 
       - name: Tansfer file to host
         run: |
-          echo "${{ secrets.TENCENT_HOST_PRIVATE_KEY }}" > ./key
+          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY }}' > ./key
           scp -i ./key -r ./dist/TYNH/* root@endingly.live:/home/app
           scp -i ./key -r ./src/app/server.js root@endingly.live:/home/app
           rm ./key
