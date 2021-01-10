@@ -32,8 +32,8 @@ jobs:
           npm run build --prod
 
       - name: upload artifact
-      - uses: actions/upload-artifact@v2
-      - with:
+        uses: actions/upload-artifact@v2
+        with:
           name: TYNH_relase
           path: |
             ./dist/TYNH
@@ -45,13 +45,12 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
-      - name: download the artifact
-      - uses: actions/download-artifact@v2
-      - with: 
+      - name: download the artifact, tansfer and release
+        uses: actions/download-artifact@v2
+        with: 
           name: TYNH_relase
-
-
-      - name: Tansfer and release
+       
+      - name: tansfer and release
         uses: matheusvanzan/sshpass-action@v2
         with:
           host: ${{ secrets.HOST }}
