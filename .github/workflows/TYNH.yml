@@ -2,13 +2,19 @@ name: TYNH
 on:
   push:
     branches: [ develop ]
-    tags: 'release-v*'
+    tags: ['release-v*']
   workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2.1.4
+
+      - name: Build source
+        run: |
+          npm install
+          npm build
 
       - name: Push Docker
         run: |
