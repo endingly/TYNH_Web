@@ -31,24 +31,31 @@ jobs:
           npm install
           npm run build --prod
 
-      - name: upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: TYNH_relase
-          path: |
-            ./dist/TYNH
-            ./src/app/server.js
-          retention-days: 5
-          
+      # - name: upload artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: TYNH_relase
+      #     path: |
+      #       ./dist/TYNH
+      #       ./src/app/server.js
+      #     retention-days: 5
+
       - name: tansfer and release
         uses: wlixcc/SFTP-Deploy-Action@v1.0
         with:
           username: ${{secrets.HOST_USER}}
           server: ${{ secrets.HOST }}
           ssh_private_key: ${{ secrets.TENCENT_HOST_PRIVATE_KEY }} 
-          local_path: |
-            './dist/TYNH/*'
-            './src/app/controlCommand/server.js'
+          local_path: './dist/TYNH/*'
+          remote_path: '/home/app/'
+      
+      - name: tansfer and release second step
+        uses: wlixcc/SFTP-Deploy-Action@v1.0
+        with:
+          username: ${{secrets.HOST_USER}}
+          server: ${{ secrets.HOST }}
+          ssh_private_key: ${{ secrets.TENCENT_HOST_PRIVATE_KEY }} 
+          local_path: './src/app/controlCommand/server.js'
           remote_path: '/home/app/'
       
 
