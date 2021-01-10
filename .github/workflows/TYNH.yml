@@ -19,8 +19,8 @@ jobs:
 
       - name: Tansfer file to host
         run: |
-          scp -i ${{ secrets.TENCENT_HOST_PRIVATE_KEY }} -r ./dist/TYNH/* root@endingly.live:/home/app
-          scp -i ${{ secrets.TENCENT_HOST_PRIVATE_KEY }} -r ./src/app/server.js root@endingly.live:/home/app
+          scp -i "${{ secrets.TENCENT_HOST_PRIVATE_KEY }}" -r ./dist/TYNH/* root@endingly.live:/home/app
+          scp -i "${{ secrets.TENCENT_HOST_PRIVATE_KEY }}" -r ./src/app/server.js root@endingly.live:/home/app
 
   clear-old-file:
     name: clear
