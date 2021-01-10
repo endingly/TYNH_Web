@@ -5,6 +5,20 @@ on:
     tags: ['release-v*']
   workflow_dispatch:
 jobs:
+
+  clear-old-file:
+  name: clear
+  runs-on: ubuntu-latest
+  steps:
+    - name: Deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.HOST_USER }}
+        key: ${{ secrets.TENCENT_HOST_PRIVATE_KEY }}
+        script: |
+            rm -r /home/app/*
+
   build:
     needs: [clear-old-file]
     runs-on: ubuntu-latest
@@ -17,27 +31,31 @@ jobs:
           npm install
           npm run build --prod
 
-      - name: Tansfer file to host
+      - name: upload artifact
+      - uses: actions/upload-artifact@v2
+      - with:
+          name: TYNH_relase
+          path: |
+            ./dist/TYNH
+            ./src/app/server.js
+          retention-days: 5
+
+  release:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: download the artifact
+      - uses: actions/download-artifact@v2
+      - with: 
+          name: TYNH_relase
+
+      - name: Tansfer and release
         uses: matheusvanzan/sshpass-action@v2
         with:
           host: ${{ secrets.HOST }}
           user: ${{ secrets.HOST_USER }}
           key: ${{ secrets.TENCENT_HOST_PRIVATE_KEY }}
           run: |
-            scp  -r ./dist/TYNH/* root@endingly.live:/home/app
-            scp  -r ./src/app/server.js root@endingly.live:/home/app
-
-  clear-old-file:
-    name: clear
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.HOST_USER }}
-          key: ${{ secrets.TENCENT_HOST_PRIVATE_KEY }}
-          script: |
-            rm -r /home/app/*
+            scp  -r TYNH_relase ${{ secrets.HOST_USER }}@${{ secrets.HOST }}:/home/app
 
 
