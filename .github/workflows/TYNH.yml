@@ -15,40 +15,17 @@ jobs:
       - name: Build source
         run: |
           npm install
-          npm run build
+          npm run build --prod
 
       - name: Tansfer file to host
-        run: |
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_1 }}' >> ./key
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_2 }}' >> ./key
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_3 }}' >> ./key
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_4 }}' >> ./key
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_5 }}' >> ./key
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_6 }}' >> ./key
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_7 }}' >> ./key
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_8 }}' >> ./key
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_9 }}' >> ./key
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_10 }}' >> ./key
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_11 }}' >> ./key
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_12 }}' >> ./key
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_13 }}' >> ./key
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_14 }}' >> ./key
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_15 }}' >> ./key
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_16 }}' >> ./key
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_17 }}' >> ./key
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_18 }}' >> ./key
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_19 }}' >> ./key
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_20 }}' >> ./key
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_21 }}' >> ./key
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_22 }}' >> ./key
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_23 }}' >> ./key
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_24 }}' >> ./key
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_25 }}' >> ./key
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_26 }}' >> ./key
-          echo '${{ secrets.TENCENT_HOST_PRIVATE_KEY_27 }}' >> ./key
-          scp -i ./key -r ./dist/TYNH/* root@endingly.live:/home/app
-          scp -i ./key -r ./src/app/server.js root@endingly.live:/home/app
-          rm ./key
+        uses: matheusvanzan/sshpass-action@v2
+        with:
+          host: ${{ secrets.HOST }}
+          user: ${{ secrets.HOST_USER }}
+          pass: ${{ secrets.HOST_PASSWORD }}
+          run: |
+            scp  -r ./dist/TYNH/* root@endingly.live:/home/app
+            scp  -r ./src/app/server.js root@endingly.live:/home/app
 
   clear-old-file:
     name: clear
@@ -59,7 +36,7 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.HOST_USER }}
-          key: ${{ secrets.TENCENT_HOST_PRIVATE_KEY }}
+          password: ${{ secrets.HOST_PASSWORD }}
           script: |
             rm -r /home/app/*
 
