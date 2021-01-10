@@ -39,6 +39,7 @@ jobs:
             ./dist/TYNH
             ./src/app/server.js
           retention-days: 5
+        run: echo 'OK'
 
   release:
     needs: [build]
@@ -48,6 +49,7 @@ jobs:
       - uses: actions/download-artifact@v2
       - with: 
           name: TYNH_relase
+        run: echo 'OK'
 
       - name: Tansfer and release
         uses: matheusvanzan/sshpass-action@v2
