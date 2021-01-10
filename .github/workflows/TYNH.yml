@@ -19,7 +19,7 @@ jobs:
           script: |
             rm -r /home/app/*
 
-  build:
+  build_and_relase:
     needs: [clear-old-file]
     runs-on: ubuntu-latest
     steps:
@@ -39,24 +39,17 @@ jobs:
             ./dist/TYNH
             ./src/app/server.js
           retention-days: 5
-      
-
-  release:
-    needs: [build]
-    runs-on: ubuntu-latest
-    steps:
-      - name: download the artifact, tansfer and release
-        uses: actions/download-artifact@v2
-        with: 
-          name: TYNH_relase
-       
+          
       - name: tansfer and release
-        uses: matheusvanzan/sshpass-action@v2
+        uses: wlixcc/SFTP-Deploy-Action@v1.0
         with:
-          host: ${{ secrets.HOST }}
-          user: ${{ secrets.HOST_USER }}
-          key: ${{ secrets.TENCENT_HOST_PRIVATE_KEY }}
-          run: |
-            scp  -r TYNH_relase ${{ secrets.HOST_USER }}@${{ secrets.HOST }}:/home/app
+          username: ${{secrets.HOST_USER}}
+          server: ${{ secrets.HOST }}
+          ssh_private_key: ${{ secrets.TENCENT_HOST_PRIVATE_KEY }} 
+          local_path: |
+            './dist/TYNH/*'
+            './src/app/controlCommand/server.js'
+          remote_path: '/home/app/'
+      
 
 
