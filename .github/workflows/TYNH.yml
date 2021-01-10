@@ -55,7 +55,7 @@ jobs:
           username: ${{secrets.HOST_USER}}
           server: ${{ secrets.HOST }}
           ssh_private_key: ${{ secrets.TENCENT_HOST_PRIVATE_KEY }} 
-          local_path: './src/app/controlCommand/server.js'
+          local_path: './src/app/server.js'
           remote_path: '/home/app/'
       
 
