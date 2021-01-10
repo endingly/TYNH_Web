@@ -6,6 +6,7 @@ on:
   workflow_dispatch:
 jobs:
   build:
+    needs: [clear-old-file]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -14,20 +15,15 @@ jobs:
       - name: Build source
         run: |
           npm install
-          npm run build 
-          ls
+          npm run build
 
-      - name: Push Docker
+      - name: Tansfer file to host
         run: |
-          echo "${{ secrets.ALIYUN_PASSWORD }}" | docker login --username=${{ secrets.ALIYUN_USERNAME }} --password-stdin registry.cn-shanghai.aliyuncs.com
-          docker build . -t ${{ secrets.ALIYUN_REGISTRY }}:$GITHUB_RUN_NUMBER
-          docker push ${{ secrets.ALIYUN_REGISTRY }}:$GITHUB_RUN_NUMBER
-          docker tag $(docker images ${{ secrets.ALIYUN_REGISTRY }}:$GITHUB_RUN_NUMBER -q) ${{ secrets.ALIYUN_REGISTRY }}:latest
-          docker push ${{ secrets.ALIYUN_REGISTRY }}:latest
+          scp -i ${{ secrets.TENCENT_HOST_PRIVATE_KEY }} -r ./dist/TYNH/* root@endingly.live:/home/app
+          scp -i ${{ secrets.TENCENT_HOST_PRIVATE_KEY }} -r ./src/app/server.js root@endingly.live:/home/app
 
-  pull-docker:
-    needs: [build]
-    name: Pull Docker
+  clear-old-file:
+    name: clear
     runs-on: ubuntu-latest
     steps:
       - name: Deploy
@@ -37,11 +33,6 @@ jobs:
           username: ${{ secrets.HOST_USER }}
           key: ${{ secrets.TENCENT_HOST_PRIVATE_KEY }}
           script: |
-            docker stop $(docker ps --filter ancestor=${{ secrets.ALIYUN_REGISTRY }} -q)
-            docker rm -f $(docker ps -a --filter ancestor=${{ secrets.ALIYUN_REGISTRY }}:latest -q)
-            docker rmi -f $(docker images  ${{ secrets.ALIYUN_REGISTRY }}:latest -q)
-            echo "${{ secrets.ALIYUN_PASSWORD }}" | docker login --username=${{ secrets.ALIYUN_USERNAME }} --password-stdin registry.cn-shanghai.aliyuncs.com
-            docker pull ${{ secrets.ALIYUN_REGISTRY }}:latest
-            docker run -d -p 4200:4200 ${{ secrets.ALIYUN_REGISTRY }}:latest
+            rm /home/app/*
 
 
