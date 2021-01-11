@@ -43,7 +43,7 @@ jobs:
             key: ${{ secrets.TENCENT_HOST_PRIVATE_KEY }}
             script: |
               rm -r /usr/share/nginx/html/TYNH
-              rm -r /usr/share/nginx/html/TYNH.zip
               unzip -qq /usr/share/nginx/html/TYNH.zip -d /usr/share/nginx/html/TYNH
+              rm -r /usr/share/nginx/html/TYNH.zip
 
 
