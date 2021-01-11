@@ -6,21 +6,7 @@ on:
   workflow_dispatch:
 jobs:
 
-  clear-old-file:
-    name: clear
-    runs-on: ubuntu-latest
-    steps:
-      - name: clear the file
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.HOST_USER }}
-          key: ${{ secrets.TENCENT_HOST_PRIVATE_KEY }}
-          script: |
-            rm -r /usr/share/nginx/html/TYNH
-            rm -r /usr/share/nginx/html/TYNH.zip
-
-  build_and_relase:
+    build_and_relase:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -44,14 +30,20 @@ jobs:
           ssh_private_key: ${{ secrets.TENCENT_HOST_PRIVATE_KEY }} 
           local_path: TYNH.zip
           remote_path: '/usr/share/nginx/html/'
-
-      - name: unzip the package 
+            
+  clear-old-file:
+    name: clear and renew
+    runs-on: ubuntu-latest
+    steps:
+      - name: clear the file and unzip
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.HOST_USER }}
           key: ${{ secrets.TENCENT_HOST_PRIVATE_KEY }}
           script: |
-            unzip -qq TYNH.zip -d TYNH
+            rm -r /usr/share/nginx/html/TYNH
+            rm -r /usr/share/nginx/html/TYNH.zip
+            unzip -qq /usr/share/nginx/html/TYNH.zip -d /usr/share/nginx/html/TYNH
 
 
