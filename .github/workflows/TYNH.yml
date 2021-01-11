@@ -19,7 +19,7 @@ jobs:
         - name: tar package
           uses: montudor/action-zip@v0.1.1
           with:
-            args: zip -qq -r TYNH.zip ./dist/TYNH/*   
+            args: zip -qq -r TYNH.zip . -i ./dist/TYNH/*   
 
         - name: tansfer and release
           uses: wlixcc/SFTP-Deploy-Action@v1.0
